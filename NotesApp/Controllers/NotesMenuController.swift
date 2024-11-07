@@ -55,6 +55,17 @@ class NotesMenuController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "delete") { action, view, completionHandler in
+            self.noteManager.deleteAtIndex(indexPath.row)
+            tableView.reloadData()
+            completionHandler(true)
+        }
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "ShowNote", sender: self)
     }

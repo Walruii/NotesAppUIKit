@@ -29,6 +29,12 @@ struct NoteManager {
         return notesArray[index].content!
     }
     
+    mutating func deleteAtIndex(_ index: Int) {
+        context.delete(notesArray[index])
+        notesArray.remove(at: index)
+        saveNote()
+    }
+    
     mutating func loadNotes() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
         
@@ -38,4 +44,15 @@ struct NoteManager {
             print("error geting notes \(error)")
         }
     }
+   
+    func saveNote() {
+        do {
+            try context.save()
+        } catch {
+            print("error saving notes \(error)")
+        }
+        
+    }
+
+    
 }
